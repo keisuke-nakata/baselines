@@ -1,23 +1,23 @@
 ALGO_PATHS = {
     'Rainbow': [
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/rainbow/20190906T122521.545748/log',
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/rainbow/20190906T122521.739546/log',
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/rainbow/20190906T122522.864753/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/rainbow/20190906T122524.454626/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/rainbow/20190906T122522.673142/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/rainbow/20190906T122524.798724/log',
     ],
     'PPO': [
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/ppo/20190906T122914.023884/log',
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/ppo/20190906T122530.781642/log',
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/ppo/20190906T122531.377449/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/ppo/20190906T122822.602326/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/ppo/20190906T122532.893457/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/ppo/20190906T122821.941262/log',
     ],
     'DDDQN': [
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/dddqn/20190906T122513.099442/log',
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/dddqn/20190906T122511.222353/log',
-        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLTreechop-v0/dddqn/20190906T122511.901882/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/dddqn/20190906T122513.218335/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/dddqn/20190906T122514.976311/log',
+        '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/dddqn/20190906T122516.025812/log',
     ],
 }
-FIGURE_TITLE = 'MineRLTreechop-v0'
-FIGURE_OUT = '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/tools/hoge.png'
-BEST_SCORE_OUT = '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/tools/hoge.txt'
+FIGURE_TITLE = 'MineRLNavigate-v0'
+FIGURE_OUT = '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/MineRLNavigate-v0.png'
+BEST_SCORE_OUT = '/mnt/vol12/nakata/home/minerl2019/baselines/general/chainerrl/baselines/results/v23_20190906/MineRLNavigate-v0/MineRLNavigate-v0.txt'
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,7 +29,11 @@ def read_data(algo_paths):
     for algo, log_paths in algo_paths.items():
         dfs = []
         for log_path in log_paths:
-            dfs.append(pd.read_json(log_path))
+            df = pd.read_json(log_path)
+            if len(df) == 0:
+                print('Skip empty log: {}'.format(log_path))
+                continue
+            dfs.append(df)
         algo_dfs[algo] = dfs
     return algo_dfs
 
